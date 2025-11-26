@@ -8,5 +8,6 @@ export default defineConfig({
     port: 5174,
     host: true,
     cors: true,
+    allowedHosts: ['.localhost', 'realtime-chat-app-3-0980.onrender.com'],
   },
 })
