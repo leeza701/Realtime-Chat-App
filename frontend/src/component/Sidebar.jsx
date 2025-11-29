@@ -7,19 +7,16 @@ import { Users } from "lucide-react";
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
 
-  const { onlineUsers,authUser} = useAuthStore();
+  const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
-useEffect(() => {
-  if (authUser) {
+  useEffect(() => {
     getUsers();
-  }
-}, [authUser, getUsers]);
+  }, [getUsers]);
 
-  const safeUsers = Array.isArray(users) ? users : [];
   const filteredUsers = showOnlineOnly
-  ? safeUsers.filter((user) => onlineUsers.includes(user._id))
-  : safeUsers;
+    ? users.filter((user) => onlineUsers.includes(user._id))
+    : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -69,8 +66,10 @@ useEffect(() => {
                 />
               )}
             </div>
-             <div className="hidden lg:block text-left min-w-0">
-              <div className="font-medium truncate">{user.name}</div>
+
+            {/* User info - only visible on larger screens */}
+            <div className="hidden lg:block text-left min-w-0">
+              <div className="font-medium truncate">{user.fullName}</div>
               <div className="text-sm text-zinc-400">
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>
@@ -86,7 +85,3 @@ useEffect(() => {
   );
 };
 export default Sidebar;
-
-
-
-
